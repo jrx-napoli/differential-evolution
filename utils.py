@@ -8,8 +8,14 @@ import numpy as np
 
 def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[float]]) -> None:
     path = f"results/{args.y_func}"
-    if args.tpa: path += f"_tpa"
-    if args.msr: path += f"_msr"
+    plot_name = args.y_func
+
+    if args.tpa:
+        path += f"_tpa"
+        plot_name += f"_tpa"
+    if args.msr:
+        path += f"_msr"
+        plot_name += f"_msr"
 
     if not os.path.exists(path):
         os.makedirs(path)
@@ -21,7 +27,7 @@ def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[
     f_args = open(f"{path}/args.txt", "w")
     f_args.write(args.__dict__.__str__())
 
-    plot(h_y, path)
+    plot(h_y, path, plot_name)
 
 
 def get_last_best_point(h: List[List[np.ndarray]], h_y: List[List[float]]) -> Tuple[np.ndarray, float]:
@@ -31,14 +37,14 @@ def get_last_best_point(h: List[List[np.ndarray]], h_y: List[List[float]]) -> Tu
     return p_last_iteration[max_y_idx], y_last_iteration[max_y_idx]
 
 
-def plot(h_y: List[List[float]], path: str) -> None:
+def plot(h_y: List[List[float]], path: str, plot_name: str) -> None:
     h_y_np = np.array(h_y)
     mean_y_for_each_iteration = np.mean(h_y_np, axis=1)
     indices_of_iterations = list(range(len(mean_y_for_each_iteration)))
     plt.plot(indices_of_iterations, mean_y_for_each_iteration, color="red")
     plt.xlabel("Numer iteracji")
     plt.ylabel("Średnia wartość funkcji celu")
-    plt.title("Zależność średniej wartości funkcji celu od numeru iteracji")
+    plt.title(f"Zależność średniej wartości funkcji celu od numeru iteracji")
 
-    plt.savefig(f"{path}/plot.png")
+    plt.savefig(f"{path}/plot_{plot_name}.png")
     plt.close()
