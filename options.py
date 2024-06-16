@@ -23,4 +23,7 @@ def get_args(argv):
     parser.add_argument('--tpa', default=False, action='store_true')
     parser.add_argument('--tpa_alpha', type=float, default=0.0001)
 
+    # other
+    parser.add_argument('--visualize_func', default=False, action='store_true')
+
     return parser.parse_args(argv)
