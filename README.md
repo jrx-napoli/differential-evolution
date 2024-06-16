@@ -8,7 +8,9 @@ Utworzenie wirtualnego środowiska Python'a
 
 Aktywacja utworzonego wirtualnego środowiska
 
-`source venv/bin/activate`
+`source env/bin/activate`
+
+`env\Scripts\activate.bat`
 
 Instalacja bibliotek
 
@@ -25,7 +27,7 @@ cd ..
 
 ### Przykładowe wywołanie
 
-`python main.py --y_func f8 --tpa --msr`
+`python main.py --y_func f10 --tpa --msr`
 
 ### Oddtworzenie eksperymentów z dokumentacji
 
