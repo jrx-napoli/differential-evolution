@@ -1,6 +1,6 @@
-## Instrukcje
+## DE/rand/1/bin using TPA and MSR
 
-### Pierwsze uruchomienie
+### Instalacja
 
 Utworzenie wirtualnego środowiska Python'a
 
@@ -23,10 +23,10 @@ python setup.py install
 cd ..
 ```
 
-### Uruchomienie skryptu, który uruchamia algorytm ewolucji różnicowej oraz tworzy wykres przedstwiający zależność średniej wartości funkcji celu wygenerowanych punktów od numeru iteracji
+### Przykładowe wywołanie
 
-Przed uruchomieniem skryptu należy ustawić parametry algorytmu w pliku konfiguracyjnym `differential_evolution_config.py`.
+`python main.py --y_func f8 --tpa --msr`
 
-Uruchomienie skryptu:
+### Oddtworzenie eksperymentów z dokumentacji
 
-`PYTHONPATH=. python run_and_create_plot.py`
+`experiments.bat`
