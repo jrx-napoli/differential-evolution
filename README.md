@@ -4,7 +4,7 @@
 
 Utworzenie wirtualnego środowiska Python'a
 
-`python -m venv venv`
+`python -m venv env`
 
 Aktywacja utworzonego wirtualnego środowiska
 
