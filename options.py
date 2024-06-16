@@ -10,7 +10,7 @@ def get_args(argv):
     parser.add_argument('--x_max', type=float, default=100.0)
     parser.add_argument('--x_dim', type=int, default=2)
     parser.add_argument('--pop_size', type=int, default=100)
-    parser.add_argument('--n_iterations', type=int, default=100)
+    parser.add_argument('--n_iterations', type=int, default=500)
     parser.add_argument('--f', type=float, default=0.8)
     parser.add_argument('--cr', type=float, default=0.9)
     parser.add_argument('--max_f', type=float, default=1.0)

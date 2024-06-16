@@ -21,8 +21,9 @@ def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[
         os.makedirs(path)
 
     best_point_idx, best_point_y_val = get_last_best_point(h, h_y)
+    first_best_mean = get_first_best_iteration(h_y)
     f = open(f"{path}/best_point.txt", "w")
-    f.write(f"Final best point:\nidx: {best_point_idx}\ny_val: {best_point_y_val}")
+    f.write(f"Final best point:\nidx: {best_point_idx}\ny_val: {best_point_y_val}\nfound in: {first_best_mean}")
 
     f_args = open(f"{path}/args.txt", "w")
     f_args.write(args.__dict__.__str__())
@@ -35,6 +36,22 @@ def get_last_best_point(h: List[List[np.ndarray]], h_y: List[List[float]]) -> Tu
     y_last_iteration = h_y[-1]
     max_y_idx = np.argmax(y_last_iteration)
     return p_last_iteration[max_y_idx], y_last_iteration[max_y_idx]
+
+
+def get_first_best_iteration(h_y: List[List[float]]) -> int:
+    h_y = np.array(h_y)
+    y_last_iteration = h_y[-1]
+
+    last_mean = np.mean(y_last_iteration)
+
+    x = 0
+    for i, iteration in enumerate(h_y):
+        current_mean = np.mean(iteration)
+        if current_mean >= last_mean:
+            x = i
+            break
+
+    return x
 
 
 def plot(h_y: List[List[float]], path: str, plot_name: str) -> None:
