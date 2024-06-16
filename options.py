@@ -5,6 +5,7 @@ def get_args(argv):
     parser = argparse.ArgumentParser()
 
     # general
+    parser.add_argument('--y_func', type=str, default="f8")
     parser.add_argument('--x_min', type=float, default=-100.0)
     parser.add_argument('--x_max', type=float, default=100.0)
     parser.add_argument('--x_dim', type=int, default=2)

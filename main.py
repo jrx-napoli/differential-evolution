@@ -1,6 +1,8 @@
 import sys
+from argparse import Namespace
 from typing import List, Tuple
 
+import cec2017.functions
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -8,8 +10,9 @@ from differential_evolution import differential_evolution
 from options import get_args
 
 
-def main(args) -> None:
-    h, h_y = differential_evolution(args)
+def main(args: Namespace) -> None:
+    y_func = cec2017.functions.__dict__[args.y_func]
+    h, h_y = differential_evolution(args, y_func)
 
     # Wypisanie do konsoli informacji o najlepszym punkcie wygenerowanym w ostatniej iteracji
     best_point_last_iteration, best_point_last_iteration_y = get_best_point_from_last_iteration(h, h_y)
