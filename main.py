@@ -1,13 +1,15 @@
+import sys
 from typing import List, Tuple
 
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 from differential_evolution import differential_evolution
+from options import get_args
 
 
-def main() -> None:
-    h, h_y = differential_evolution()
+def main(args) -> None:
+    h, h_y = differential_evolution(args)
 
     # Wypisanie do konsoli informacji o najlepszym punkcie wygenerowanym w ostatniej iteracji
     best_point_last_iteration, best_point_last_iteration_y = get_best_point_from_last_iteration(h, h_y)
@@ -38,4 +40,5 @@ def create_and_show_plot_of_mean_y_for_each_iteration(h_y: List[List[float]]) ->
 
 
 if __name__ == "__main__":
-    main()
+    args = get_args(sys.argv[1:])
+    main(args)
