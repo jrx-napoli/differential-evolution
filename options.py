@@ -25,5 +25,6 @@ def get_args(argv):
 
     # other
     parser.add_argument('--visualize_func', default=False, action='store_true')
+    parser.add_argument('--seed', type=int, default=42)
 
     return parser.parse_args(argv)
