@@ -86,18 +86,18 @@ def crossover(args: Namespace, point_1: np.ndarray, point_2: np.ndarray, cr: flo
 
 
 def tournament(y_func: Callable, point_1: np.ndarray, point_2: np.ndarray) -> Tuple[np.ndarray, float]:
-    # Zwraca punkt, dla którego wartość funkcji celu jest większa, więc maksymalizujemy
+    # Zwraca punkt, dla którego wartość funkcji celu jest mniejsza, więc minimalizujemy
     point_1_y = y_func(point_1[np.newaxis, ...]).item()
     point_2_y = y_func(point_2[np.newaxis, ...]).item()
-    if point_1_y >= point_2_y:
+    if point_1_y <= point_2_y:
         return point_1, point_1_y
     return point_2, point_2_y
 
 
 def msr(args: Namespace, F: float, previous_y: List[float], y: List[float]) -> float:
     previous_y_median = np.median(previous_y)
-    # Zlicza punkty, których wartość funkcji celu jest większa lub równa medianie, więc maksymalizujemy
-    number_of_points_better_than_previous_y_median = len(list(filter(lambda y_item: y_item >= previous_y_median, y)))
+    # Zlicza punkty, których wartość funkcji celu jest mniejsza lub równa medianie, więc minimalizujemy
+    number_of_points_better_than_previous_y_median = len(list(filter(lambda y_item: y_item <= previous_y_median, y)))
     if number_of_points_better_than_previous_y_median > (args.pop_size / 2):
         new_F = F - (args.msr_alpha * F)
     else:
@@ -106,9 +106,10 @@ def msr(args: Namespace, F: float, previous_y: List[float], y: List[float]) -> f
 
 
 def tpa(y_func: Callable, smaller_F: float, larger_F: float, point_smaller_F: np.ndarray, point_larger_F: np.ndarray) -> Tuple[np.ndarray, float]:
+    # Zwraca punkt, którego wartość funkcji celu jest mniejsza, więc minimalizujemy
     point_smaller_F_y = y_func(point_smaller_F[np.newaxis, ...]).item()
     point_larger_F_y = y_func(point_larger_F[np.newaxis, ...]).item()
-    if point_larger_F_y > point_smaller_F_y:
+    if point_larger_F_y < point_smaller_F_y:
         return point_larger_F, larger_F
     else:
         return point_smaller_F, smaller_F

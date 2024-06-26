@@ -34,8 +34,8 @@ def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[
 def get_last_best_point(h: List[List[np.ndarray]], h_y: List[List[float]]) -> Tuple[np.ndarray, float]:
     p_last_iteration = h[-1]
     y_last_iteration = h_y[-1]
-    max_y_idx = np.argmax(y_last_iteration)
-    return p_last_iteration[max_y_idx], y_last_iteration[max_y_idx]
+    min_y_idx = np.argmin(y_last_iteration)
+    return p_last_iteration[min_y_idx], y_last_iteration[min_y_idx]
 
 
 def get_first_best_iteration(h_y: List[List[float]]) -> int:
@@ -47,7 +47,7 @@ def get_first_best_iteration(h_y: List[List[float]]) -> int:
     x = 0
     for i, iteration in enumerate(h_y):
         current_mean = np.mean(iteration)
-        if current_mean >= last_mean:
+        if current_mean <= last_mean:
             x = i
             break
 
