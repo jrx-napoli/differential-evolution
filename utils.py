@@ -9,13 +9,19 @@ import numpy as np
 def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[float]]) -> None:
     path = f"results/{args.y_func}"
     plot_name = args.y_func
+    comp_entry_name = args.y_func
 
     if args.tpa:
         path += f"_tpa"
         plot_name += f"_tpa"
+        comp_entry_name += f"_tpa"
     if args.msr:
         path += f"_msr"
         plot_name += f"_msr"
+        comp_entry_name += f"_msr"
+
+    path += f"_{args.seed}"
+    comp_entry_name += f"_{args.seed}"
 
     if not os.path.exists(path):
         os.makedirs(path)
@@ -24,6 +30,9 @@ def generate_results(args: Namespace, h: List[List[np.ndarray]], h_y: List[List[
     first_best_mean = get_first_best_iteration(h_y)
     f = open(f"{path}/best_point.txt", "w")
     f.write(f"Final best point:\nidx: {best_point_idx}\ny_val: {best_point_y_val}\nfound in: {first_best_mean}")
+
+    f_comp = open(f"results/comparison.txt", "a")
+    f_comp.write(f"{comp_entry_name}:\n{best_point_idx} {best_point_y_val} {first_best_mean}\n\n")
 
     f_args = open(f"{path}/args.txt", "w")
     f_args.write(args.__dict__.__str__())
@@ -39,19 +48,16 @@ def get_last_best_point(h: List[List[np.ndarray]], h_y: List[List[float]]) -> Tu
 
 
 def get_first_best_iteration(h_y: List[List[float]]) -> int:
-    h_y = np.array(h_y)
-    y_last_iteration = h_y[-1]
-
-    last_mean = np.mean(y_last_iteration)
-
-    x = 0
-    for i, iteration in enumerate(h_y):
-        current_mean = np.mean(iteration)
-        if current_mean <= last_mean:
-            x = i
-            break
-
-    return x
+    min_value = float('inf')
+    min_index = -1
+    
+    for i, sublist in enumerate(h_y):
+        local_min = min(sublist)
+        if local_min < min_value:
+            min_value = local_min
+            min_index = i
+    
+    return min_index
 
 
 def plot(h_y: List[List[float]], path: str, plot_name: str) -> None:
@@ -61,7 +67,7 @@ def plot(h_y: List[List[float]], path: str, plot_name: str) -> None:
     plt.plot(indices_of_iterations, mean_y_for_each_iteration, color="red")
     plt.xlabel("Numer iteracji")
     plt.ylabel("Średnia wartość funkcji celu")
-    plt.title(f"Zależność średniej wartości funkcji celu od numeru iteracji")
+    plt.title(f"{plot_name}")
 
     plt.savefig(f"{path}/plot_{plot_name}.png")
     plt.close()
